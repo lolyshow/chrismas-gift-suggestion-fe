@@ -1,1 +1,37 @@
-<p>gift-search works!</p>
+<div class="search-container">
+  <input
+    [(ngModel)]="searchQuery"
+    (input)="search()"
+    class="search-box"
+    placeholder="Search for Christmas gifts..."
+  />
+
+  <div *ngIf="isLoading" class="loading-spinner">
+    <p>Loading gifts...</p>
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    <p>{{ errorMessage }}</p>
+  </div>
+
+  <div class="results" *ngIf="results.length > 0">
+    <div class="card" *ngFor="let item of results" (click)="selectGift(item)">
+      <img [src]="item.image" alt="Gift image" class="gift-image" />
+      <h3>{{ item.title }}</h3>
+    </div>
+  </div>
+
+  <div *ngIf="results.length === 0 && !isLoading" class="no-results">
+    <p>No results found. Try searching for something else!</p>
+  </div>
+
+  <div *ngIf="selectedGift" class="gift-details-modal">
+    <div class="modal-content">
+      <span (click)="closeDetails()" class="close-btn">&times;</span>
+      <img [src]="selectedGift.image" alt="Gift image" class="modal-image" />
+      <h3>{{ selectedGift.title }}</h3>
+      <p>{{ selectedGift.description }}</p>
+      <button class="add-to-cart-btn">Add to Cart</button>
+    </div>
+  </div>
+</div>
